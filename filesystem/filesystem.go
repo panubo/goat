@@ -35,9 +35,9 @@ func CheckFilesystem(driveName string, desiredFs string, label string) error {
 func CreateFilesystem(driveName string, desiredFs string, label string) error {
 	cmd := "mkfs." + desiredFs
 	args := []string{
-		driveName,
 		"-L",
 		"GOAT-" + label,
+		driveName,
 	}
 
 	if _, err := Command(cmd, args, ""); err != nil {
