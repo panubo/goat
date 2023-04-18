@@ -38,7 +38,7 @@ dev-env: ## Build a local development environment using Docker
 	@docker run -it --rm \
 		-v $(shell pwd):/$(NAME) \
 		-w /$(NAME) \
-		golang:1.12 \
+		golang:1.18 \
 		/bin/bash -c 'make install; bash'
 
 install: ## Build and install locally the binary (dev purpose)
