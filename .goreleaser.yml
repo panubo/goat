@@ -1,0 +1,35 @@
+project_name: goat
+
+env:
+  - GO11MODULE=on
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - main: ./
+    binary: goat
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -w -extldflags "-static" -X main.VERSION={{.Version}}
+    flags:
+      - -mod=vendor
+      - -a
+      - -tags=netgo
+
+snapshot:
+  name_template: "git-{{.ShortCommit}}"
+
+release:
+  github:
+    owner: panubo
+    name: goat
+  draft: false
