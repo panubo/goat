@@ -52,6 +52,7 @@ func prepAndMountDrives(volName string, vols []EbsVol) {
 	if filesystem.DoesDriveExist("/dev/disk/by-label/GOAT-" + volName) {
 		driveLogger.Info("Label already exists, jumping to mount phase")
 	} else {
+		driveLogger.Info("Label does not exist. Initialising disk/array")
 		var driveName string
 		var err error
 		if len(vols) == 1 {
@@ -93,6 +94,8 @@ func prepAndMountDrives(volName string, vols []EbsVol) {
 		}
 		if err := filesystem.CreateFilesystem(driveName, desiredFs, volName); err != nil {
 			driveLogger.Fatalf("Error when creating filesystem: %v", err)
+		} else {
+			driveLogger.Info("Filesystem created successfully")
 		}
 	}
 
