@@ -4,8 +4,9 @@ import (
 	"fmt"
 )
 
-//CheckFilesystem checks for a filesystem on a given drive using blkid. It returns ok if there is no filesystem or the filesystem is the correct type. Error if there's a different filesystem
-func CheckFilesystem(driveName string, desiredFs string, label string) error {
+// CheckFilesystem checks if a filesystem exists on a given drive using blkid.
+// It returns nil if no filesystem is found, otherwise returns an error.
+func CheckFilesystem(driveName string) error {
 	cmd := "blkid"
 	args := []string{
 		"-o",
@@ -18,18 +19,20 @@ func CheckFilesystem(driveName string, desiredFs string, label string) error {
 	fsOut, err := Command(cmd, args, "")
 	if err != nil {
 		if fsOut.Status == 2 {
-			//go ahead and create filesystem
+			// No filesystem detected, return nil (OK)
 			return nil
 		}
-		return err
+		return err // Other errors should be returned
 	}
-	switch fsOut.Stdout {
-	case desiredFs + "\n":
-		return nil
-	default:
-		return fmt.Errorf("Desired fs: %s, actual fs: %s", desiredFs, fsOut.Stdout)
+
+	// If blkid returns any filesystem type, return an error
+	if fsOut.Stdout != "" {
+		return fmt.Errorf("Filesystem detected: %s", strings.TrimSpace(fsOut.Stdout))
 	}
+
+	return nil
 }
+
 
 //CreateFilesystem executes mkfs.<desired_filesystem> on the requested drive.
 func CreateFilesystem(driveName string, desiredFs string, label string) error {

@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 
-	"github.com/sevagh/goat/filesystem"
+	"github.com/panubo/goat/filesystem"
 )
 
 //GoatEbs runs Goat for your EBS volumes - attach, mount, mkfs, etc.
@@ -89,7 +89,7 @@ func prepAndMountDrives(volName string, vols []EbsVol) {
 
 		driveLogger.Info("Checking for existing filesystem")
 
-		if err := filesystem.CheckFilesystem(driveName, desiredFs, volName); err != nil {
+		if err := filesystem.CheckFilesystem(driveName); err != nil {
 			driveLogger.Fatalf("Checking for existing filesystem: %v", err)
 		}
 		if err := filesystem.CreateFilesystem(driveName, desiredFs, volName); err != nil {

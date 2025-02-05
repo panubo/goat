@@ -1,4 +1,4 @@
-module github.com/sevagh/goat
+module github.com/panubo/goat
 
 go 1.18
 
