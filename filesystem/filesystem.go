@@ -27,7 +27,7 @@ func CheckFilesystem(driveName string) error {
 
 	// If blkid returns any filesystem type, return an error
 	if fsOut.Stdout != "" {
-		return fmt.Errorf("Filesystem detected: %s", strings.TrimSpace(fsOut.Stdout))
+		return fmt.Errorf("Filesystem detected: %s", fsOut.Stdout)
 	}
 
 	return nil
