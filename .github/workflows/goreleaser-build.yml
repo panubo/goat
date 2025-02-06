@@ -1,6 +1,6 @@
 # Source: https://github.com/panubo/reference-github-actions/blob/main/goreleaser-build.yml
 # Description: Release a go binary
-# LICENSE: MIT License, Copyright (c) 2021-2022 Volt Grid Pty Ltd t/a Panubo
+# LICENSE: MIT License, Copyright (c) 2021-2024 Volt Grid Pty Ltd t/a Panubo
 
 name: GoReleaser Build
 
@@ -28,7 +28,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
          fetch-depth: 0
 
@@ -43,7 +43,7 @@ jobs:
           install-only: true
 
       - name: Cache Go modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -61,6 +61,6 @@ jobs:
           fi
 
       - name: Upload assets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: dist/*
